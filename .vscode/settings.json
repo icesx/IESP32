@@ -13,6 +13,18 @@
     "mywifi.h": "c",
     "stdio.h": "c",
     "esp_wifi.h": "c",
-    "myhttpclient.h": "c"
+    "myhttpclient.h": "c",
+    "array": "c",
+    "deque": "c",
+    "list": "c",
+    "string": "c",
+    "unordered_map": "c",
+    "unordered_set": "c",
+    "vector": "c",
+    "string_view": "c",
+    "initializer_list": "c",
+    "esp_wpa2.h": "c",
+    "esp_smartconfig.h": "c",
+    "esp_event.h": "c"
   }
 }
