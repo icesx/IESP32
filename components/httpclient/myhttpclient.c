@@ -32,7 +32,7 @@ static const char *REQUEST = "GET " WEB_PATH " HTTP/1.0\r\n"
                              "User-Agent: esp-idf/1.0 esp32\r\n"
                              "\r\n";
 
-static void http_get_task(void *pvParameters)
+void http_get_task(void *pvParameters)
 {
     const struct addrinfo hints = {
         .ai_family = AF_INET,

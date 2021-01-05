@@ -7,6 +7,7 @@
       "includePath": [
         "${config:idf.espIdfPath}/components/**",
         "${config:idf.espIdfPathWin}/components/**",
+        "/TOOLS/SDK/esp32/esp-idf/components/nvs_flash/include",
         "${workspaceFolder}/**"
       ],
       "browse": {
