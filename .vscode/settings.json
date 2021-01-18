@@ -29,6 +29,18 @@
     "sys.h": "c",
     "nvs_flash.h": "c",
     "nvs.h": "c",
-    "esp_system.h": "c"
-  }
+    "esp_system.h": "c",
+    "spi_display.h": "c",
+    "start_count.h": "c",
+    "*.ipp": "cpp",
+    "atomic": "cpp",
+    "*.tcc": "cpp",
+    "random": "cpp",
+    "fstream": "cpp",
+    "functional": "cpp",
+    "optional": "cpp",
+    "tuple": "cpp",
+    "type_traits": "cpp"
+  },
+  "idf.flashType": "UART"
 }

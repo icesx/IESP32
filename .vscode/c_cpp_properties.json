@@ -1,24 +1,25 @@
 {
-  "configurations": [
-    {
-      "name": "Linux",
-      "cStandard": "c11",
-      "cppStandard": "c++17",
-      "includePath": [
-        "${config:idf.espIdfPath}/components/**",
-        "${config:idf.espIdfPathWin}/components/**",
-        "/TOOLS/SDK/esp32/esp-idf/components/nvs_flash/include",
-        "${workspaceFolder}/**"
-      ],
-      "browse": {
-        "path": [
-          "${config:idf.espIdfPath}/components",
-          "${config:idf.espIdfPathWin}/components",
-          "${workspaceFolder}"
-        ],
-        "limitSymbolsToIncludedHeaders": false
-      }
-    }
-  ],
-  "version": 4
+    "configurations": [
+        {
+            "name": "Linux",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "includePath": [
+                "${config:idf.espIdfPath}/components/**",
+                "${config:idf.espIdfPathWin}/components/**",
+                "/TOOLS/SDK/esp32/esp-idf/components/nvs_flash/include",
+                "${workspaceFolder}/**"
+            ],
+            "browse": {
+                "path": [
+                    "${config:idf.espIdfPath}/components",
+                    "${config:idf.espIdfPathWin}/components",
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": false
+            },
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+        }
+    ],
+    "version": 4
 }
