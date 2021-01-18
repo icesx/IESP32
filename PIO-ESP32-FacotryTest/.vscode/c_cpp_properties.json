@@ -1,20 +1,15 @@
-//
-// !!! WARNING !!! AUTO-GENERATED FILE!
-// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
-// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
-//
 {
     "configurations": [
         {
             "name": "PlatformIO",
             "includePath": [
-                "/ICESX/workspace_esp32/PIO-ESP32-FacotryTest/include",
-                "/ICESX/workspace_esp32/PIO-ESP32-FacotryTest/src",
+                "/ICESX/workspace_esp32/IESP32/PIO-ESP32-FacotryTest/include",
+                "/ICESX/workspace_esp32/IESP32/PIO-ESP32-FacotryTest/src",
                 "/TOOLS/IDE/platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 "/TOOLS/IDE/platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                 "/TOOLS/IDE/platformio/packages/framework-arduinoespressif32/libraries/SD/src",
-                "/ICESX/workspace_esp32/PIO-ESP32-FacotryTest/.pio/libdeps/esp32dev/Button2/src",
-                "/ICESX/workspace_esp32/PIO-ESP32-FacotryTest/.pio/libdeps/esp32dev/TFT_eSPI",
+                "/ICESX/workspace_esp32/IESP32/PIO-ESP32-FacotryTest/.pio/libdeps/esp32dev/Button2/src",
+                "/ICESX/workspace_esp32/IESP32/PIO-ESP32-FacotryTest/.pio/libdeps/esp32dev/TFT_eSPI",
                 "/TOOLS/IDE/platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
                 "/TOOLS/IDE/platformio/packages/framework-arduinoespressif32/libraries/SPIFFS/src",
                 "/TOOLS/IDE/platformio/packages/framework-arduinoespressif32/libraries/FS/src",
@@ -102,13 +97,13 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "/ICESX/workspace_esp32/PIO-ESP32-FacotryTest/include",
-                    "/ICESX/workspace_esp32/PIO-ESP32-FacotryTest/src",
+                    "/ICESX/workspace_esp32/IESP32/PIO-ESP32-FacotryTest/include",
+                    "/ICESX/workspace_esp32/IESP32/PIO-ESP32-FacotryTest/src",
                     "/TOOLS/IDE/platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     "/TOOLS/IDE/platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                     "/TOOLS/IDE/platformio/packages/framework-arduinoespressif32/libraries/SD/src",
-                    "/ICESX/workspace_esp32/PIO-ESP32-FacotryTest/.pio/libdeps/esp32dev/Button2/src",
-                    "/ICESX/workspace_esp32/PIO-ESP32-FacotryTest/.pio/libdeps/esp32dev/TFT_eSPI",
+                    "/ICESX/workspace_esp32/IESP32/PIO-ESP32-FacotryTest/.pio/libdeps/esp32dev/Button2/src",
+                    "/ICESX/workspace_esp32/IESP32/PIO-ESP32-FacotryTest/.pio/libdeps/esp32dev/TFT_eSPI",
                     "/TOOLS/IDE/platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
                     "/TOOLS/IDE/platformio/packages/framework-arduinoespressif32/libraries/SPIFFS/src",
                     "/TOOLS/IDE/platformio/packages/framework-arduinoespressif32/libraries/FS/src",
