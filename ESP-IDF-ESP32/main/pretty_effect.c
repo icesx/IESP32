@@ -68,6 +68,7 @@ void pretty_effect_calc_lines(uint16_t *dest, int line, int frame, int linect)
 esp_err_t pretty_effect_init(void)
 {
 #ifdef CONFIG_IDF_TARGET_ESP32
+    printf("to decode_image\n");
     return decode_image(&pixels);
 #elif defined CONFIG_IDF_TARGET_ESP32S2BETA
     //esp32s2beta doesn't have enough memory to hold the decoded image, calculate instead

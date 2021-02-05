@@ -16,6 +16,7 @@ Keep in mind that the decoder library cannot handle progressive files (will give
 ``Image decoder: jd_prepare failed (8)`` as an error) so make sure to save in the correct
 format if you want to use a different image file.
 */
+
 #include "decode_image.h"
 #include "tjpgd.h"
 #include "esp_log.h"
@@ -32,8 +33,7 @@ extern const uint8_t image_jpg_end[] asm("_binary_image_jpg_end");
 const char *TAG = "ImageDec";
 
 //Data that is passed from the decoder function to the infunc/outfunc functions.
-typedef struct
-{
+typedef struct {
     const unsigned char *inData; //Pointer to jpeg data
     uint16_t inPos;              //Current position in jpeg data
     uint16_t **outData;          //Array of IMAGE_H pointers to arrays of IMAGE_W 16-bit pixel values
@@ -44,15 +44,12 @@ typedef struct
 //Input function for jpeg decoder. Just returns bytes from the inData field of the JpegDev structure.
 static uint16_t infunc(JDEC *decoder, uint8_t *buf, uint16_t len)
 {
-    ESP_LOGE(TAG, "infnc to decoder buf is (%d)", *buf);
     //Read bytes from input file
     JpegDev *jd = (JpegDev *)decoder->device;
-    if (buf != NULL)
-    {
+    if (buf != NULL) {
         memcpy(buf, jd->inData + jd->inPos, len);
     }
     jd->inPos += len;
-    ESP_LOGE(TAG, "len is  (%d)", len);
     return len;
 }
 
@@ -62,10 +59,8 @@ static uint16_t outfunc(JDEC *decoder, void *bitmap, JRECT *rect)
 {
     JpegDev *jd = (JpegDev *)decoder->device;
     uint8_t *in = (uint8_t *)bitmap;
-    for (int y = rect->top; y <= rect->bottom; y++)
-    {
-        for (int x = rect->left; x <= rect->right; x++)
-        {
+    for (int y = rect->top; y <= rect->bottom; y++) {
+        for (int x = rect->left; x <= rect->right; x++) {
             //We need to convert the 3 bytes in `in` to a rgb565 value.
             uint16_t v = 0;
             v |= ((in[0] >> 3) << 11);
@@ -86,6 +81,7 @@ static uint16_t outfunc(JDEC *decoder, void *bitmap, JRECT *rect)
 //Decode the embedded image into pixel lines that can be used with the rest of the logic.
 esp_err_t decode_image(uint16_t ***pixels)
 {
+    printf("image %x \n",image_jpg_start[1]);
     char *work = NULL;
     int r;
     JDEC decoder;
@@ -95,17 +91,14 @@ esp_err_t decode_image(uint16_t ***pixels)
 
     //Alocate pixel memory. Each line is an array of IMAGE_W 16-bit pixels; the `*pixels` array itself contains pointers to these lines.
     *pixels = calloc(IMAGE_H, sizeof(uint16_t *));
-    if (*pixels == NULL)
-    {
+    if (*pixels == NULL) {
         ESP_LOGE(TAG, "Error allocating memory for lines");
         ret = ESP_ERR_NO_MEM;
         goto err;
     }
-    for (int i = 0; i < IMAGE_H; i++)
-    {
+    for (int i = 0; i < IMAGE_H; i++) {
         (*pixels)[i] = malloc(IMAGE_W * sizeof(uint16_t));
-        if ((*pixels)[i] == NULL)
-        {
+        if ((*pixels)[i] == NULL) {
             ESP_LOGE(TAG, "Error allocating memory for line %d", i);
             ret = ESP_ERR_NO_MEM;
             goto err;
@@ -114,8 +107,7 @@ esp_err_t decode_image(uint16_t ***pixels)
 
     //Allocate the work space for the jpeg decoder.
     work = calloc(WORKSZ, 1);
-    if (work == NULL)
-    {
+    if (work == NULL) {
         ESP_LOGE(TAG, "Cannot allocate workspace");
         ret = ESP_ERR_NO_MEM;
         goto err;
@@ -130,15 +122,15 @@ esp_err_t decode_image(uint16_t ***pixels)
 
     //Prepare and decode the jpeg.
     r = jd_prepare(&decoder, infunc, work, WORKSZ, (void *)&jd);
-    if (r != JDR_OK)
-    {
+    if (r != JDR_OK) {
         ESP_LOGE(TAG, "Image decoder: jd_prepare failed (%d)", r);
         ret = ESP_ERR_NOT_SUPPORTED;
         goto err;
     }
+    printf("%d\n",r);
     r = jd_decomp(&decoder, outfunc, 0);
-    if (r != JDR_OK && r != JDR_FMT1)
-    {
+    printf("%d\n",r);
+    if (r != JDR_OK && r != JDR_FMT1) {
         ESP_LOGE(TAG, "Image decoder: jd_decode failed (%d)", r);
         ret = ESP_ERR_NOT_SUPPORTED;
         goto err;
@@ -149,10 +141,9 @@ esp_err_t decode_image(uint16_t ***pixels)
     return ret;
 err:
     //Something went wrong! Exit cleanly, de-allocating everything we allocated.
-    if (*pixels != NULL)
-    {
-        for (int i = 0; i < IMAGE_H; i++)
-        {
+    printf("error\n");
+    if (*pixels != NULL) {
+        for (int i = 0; i < IMAGE_H; i++) {
             free((*pixels)[i]);
         }
         free(*pixels);

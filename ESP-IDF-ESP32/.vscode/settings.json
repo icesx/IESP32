@@ -40,7 +40,9 @@
     "functional": "cpp",
     "optional": "cpp",
     "tuple": "cpp",
-    "type_traits": "cpp"
+    "type_traits": "cpp",
+    "sdkconfig.h": "c",
+    "decode_image.h": "c"
   },
   "idf.flashType": "UART"
 }

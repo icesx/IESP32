@@ -28,8 +28,6 @@
  before the transaction is sent, the callback will set this line to the correct state.
 */
 
-#define CONFIG_LCD_TYPE_ST7789V
-
 #ifdef CONFIG_IDF_TARGET_ESP32
 #define LCD_HOST    HSPI_HOST
 #define DMA_CHAN    2
@@ -55,6 +53,17 @@
 #define PIN_NUM_RST  5
 #define PIN_NUM_BCKL 6
 #endif
+
+//TTGO
+#define PIN_NUM_MISO 23
+#define PIN_NUM_MOSI 19
+#define PIN_NUM_CLK  18
+#define PIN_NUM_CS   5
+#define PIN_NUM_DC   16
+#define PIN_NUM_RST  23
+#define PIN_NUM_BCKL 4
+
+
 
 //To speed up transfers, every SPI transfer sends a bunch of lines. This define specifies how many. More means more memory use,
 //but less overhead for setting up / finishing transfers. Make sure 240 is dividable by this.
@@ -187,6 +196,7 @@ void lcd_cmd(spi_device_handle_t spi, const uint8_t cmd)
     t.user=(void*)0;                //D/C needs to be set to 0
     ret=spi_device_polling_transmit(spi, &t);  //Transmit!
     assert(ret==ESP_OK);            //Should have had no issues.
+    printf("run command %d\n",cmd);
 }
 
 /* Send data to the LCD. Uses spi_device_polling_transmit, which waits until the
@@ -257,16 +267,16 @@ void lcd_init(spi_device_handle_t spi)
     int lcd_type;
 
     printf("LCD ID: %08X\n", lcd_id);
-    if ( lcd_id == 0 ) {
-        //zero, ili
-        lcd_detected_type = LCD_TYPE_ILI;
-        printf("ILI9341 detected.\n");
-    } else {
-        // none-zero, ST
-        lcd_detected_type = LCD_TYPE_ST;
-        printf("ST7789V detected.\n");
-    }
-
+    // if ( lcd_id == 0 ) {
+    //     //zero, ili
+    //     lcd_detected_type = LCD_TYPE_ILI;
+    //     printf("ILI9341 detected.\n");
+    // } else {
+    //     // none-zero, ST
+    //     lcd_detected_type = LCD_TYPE_ST;
+    //     printf("ST7789V detected.\n");
+    // }
+    lcd_detected_type = LCD_TYPE_ST;
 #ifdef CONFIG_LCD_TYPE_AUTO
     lcd_type = lcd_detected_type;
 #elif defined( CONFIG_LCD_TYPE_ST7789V )
@@ -293,9 +303,10 @@ void lcd_init(spi_device_handle_t spi)
         }
         cmd++;
     }
-
+    printf("sended all commands.\n");
     ///Enable backlight
-    gpio_set_level(PIN_NUM_BCKL, 0);
+    gpio_set_level(PIN_NUM_BCKL, 1);
+    printf("init ok\n");
 }
 
 
@@ -388,6 +399,7 @@ static void display_pretty_colors(spi_device_handle_t spi)
 
     while(1) {
         frame++;
+        printf("frame %d\n",frame);
         for (int y=0; y<240; y+=PARALLEL_LINES) {
             //Calculate a line.
             pretty_effect_calc_lines(lines[calc_line], y, frame, PARALLEL_LINES);
@@ -405,7 +417,7 @@ static void display_pretty_colors(spi_device_handle_t spi)
     }
 }
 
-void disp_main(void)
+void app_main(void)
 {
     esp_err_t ret;
     spi_device_handle_t spi;
