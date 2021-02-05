@@ -16,7 +16,7 @@
 #include "driver/gpio.h"
 
 #include "pretty_effect.h"
-
+#include "spi_disaply.h"
 /*
  This code displays some fancy graphics on the 320x240 LCD on an ESP-WROVER_KIT board.
  This example demonstrates the use of both spi_device_transmit as well as
@@ -421,7 +421,7 @@ static void display_pretty_colors(spi_device_handle_t spi)
     }
 }
 
-void app_main(void)
+void app_main_(void)
 {
     esp_err_t ret;
     spi_device_handle_t spi;
@@ -458,4 +458,7 @@ void app_main(void)
 
     //Go do nice stuff.
     display_pretty_colors(spi);
+}
+void show_esp32_image(void){
+    app_main_();
 }
