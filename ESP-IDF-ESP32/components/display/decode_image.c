@@ -18,7 +18,7 @@ format if you want to use a different image file.
 */
 
 #include "decode_image.h"
-#include "tjpgd.h"
+#include "../tjpgd/include/tjpgd.h"
 #include "esp_log.h"
 #include <string.h>
 
