@@ -400,7 +400,7 @@ static void display_pretty_colors(spi_device_handle_t spi)
     //Indexes of the line currently being sent to the LCD and the line we're calculating.
     int sending_line=-1;
     int calc_line=0;
-
+    
     while(1) {
         frame++;
         printf("frame %d\n",frame);
