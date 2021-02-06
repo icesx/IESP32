@@ -421,7 +421,7 @@ static void display_pretty_colors(spi_device_handle_t spi)
     }
 }
 
-void app_main_(void)
+void app_main(void)
 {
     esp_err_t ret;
     spi_device_handle_t spi;
@@ -458,7 +458,4 @@ void app_main_(void)
 
     //Go do nice stuff.
     display_pretty_colors(spi);
-}
-void show_esp32_image(void){
-    app_main_();
 }
