@@ -1,0 +1,1 @@
+void show_esp32_image(void);
