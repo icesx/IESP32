@@ -43,7 +43,8 @@
     "type_traits": "cpp",
     "sdkconfig.h": "c",
     "decode_image.h": "c",
-    "spi_disaply.h": "c"
+    "spi_disaply.h": "c",
+    "display_common.h": "c"
   },
   "idf.flashType": "UART"
 }
