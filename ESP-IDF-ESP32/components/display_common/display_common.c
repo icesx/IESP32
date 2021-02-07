@@ -8,10 +8,53 @@
 #include "driver/spi_master.h"
 #include "driver/gpio.h"
 
+#ifdef CONFIG_IDF_TARGET_ESP32
+#define LCD_HOST HSPI_HOST
+#define DMA_CHAN 2
+
+// #define PIN_NUM_MISO 25
+// #define PIN_NUM_MOSI 23
+// #define PIN_NUM_CLK  19
+// #define PIN_NUM_CS   22
+
+// #define PIN_NUM_DC   21
+// #define PIN_NUM_RST  18
+// #define PIN_NUM_BCKL 5
+
+//TTGO
+#define PIN_NUM_MISO 23
+#define PIN_NUM_MOSI 19
+#define PIN_NUM_CLK 18
+#define PIN_NUM_CS 5
+
 #define PIN_NUM_DC 16
 #define PIN_NUM_RST 23
 #define PIN_NUM_BCKL 4
 
+#elif defined CONFIG_IDF_TARGET_ESP32S2BETA
+#define LCD_HOST SPI2_HOST
+#define DMA_CHAN LCD_HOST
+
+#define PIN_NUM_MISO 37
+#define PIN_NUM_MOSI 35
+#define PIN_NUM_CLK 36
+#define PIN_NUM_CS 34
+
+#define PIN_NUM_DC 4
+#define PIN_NUM_RST 5
+#define PIN_NUM_BCKL 6
+#endif
+
+#define _PIN_NUM_MISO PIN_NUM_MISO
+#define _PIN_NUM_MOSI PIN_NUM_MOSI
+#define _PIN_NUM_CLK PIN_NUM_CLK
+#define _PIN_NUM_CS PIN_NUM_CS
+
+#define _PIN_NUM_DC PIN_NUM_DC
+#define _PIN_NUM_RST PIN_NUM_RST
+#define _PIN_NUM_BCKL PIN_NUM_BCKL
+#define _PARALLEL_LINES PARALLEL_LINES
+#define _LCD_HOST LCD_HOST
 /*
  The LCD needs a bunch of command/argument values to be initialized. They are stored in this struct.
 */
@@ -177,8 +220,46 @@ uint32_t lcd_get_id(spi_device_handle_t spi)
 
     return *(uint32_t *)t.rx_data;
 }
-void lcd_init(spi_device_handle_t spi)
+
+//This function is called (in irq context!) just before a transmission starts. It will
+//set the D/C line to the value indicated in the user field.
+void lcd_spi_pre_transfer_callback(spi_transaction_t *t)
 {
+    int dc = (int)t->user;
+    gpio_set_level(_PIN_NUM_DC, dc);
+}
+void prepare(spi_device_handle_t *spi)
+{
+    esp_err_t ret;
+    spi_bus_config_t buscfg = {
+        .miso_io_num = _PIN_NUM_MISO,
+        .mosi_io_num = _PIN_NUM_MOSI,
+        .sclk_io_num = _PIN_NUM_CLK,
+        .quadwp_io_num = -1,
+        .quadhd_io_num = -1,
+        .max_transfer_sz = _PARALLEL_LINES * 320 * 2 + 8};
+    spi_device_interface_config_t devcfg = {
+#ifdef CONFIG_LCD_OVERCLOCK
+        .clock_speed_hz = 26 * 1000 * 1000, //Clock out at 26 MHz
+#else
+        .clock_speed_hz = 10 * 1000 * 1000, //Clock out at 10 MHz
+#endif
+        .mode = 0,                               //SPI mode 0
+        .spics_io_num = _PIN_NUM_CS,             //CS pin
+        .queue_size = 7,                         //We want to be able to queue 7 transactions at a time
+        .pre_cb = lcd_spi_pre_transfer_callback, //Specify pre-transfer callback to handle D/C line
+    };
+    //Initialize the SPI bus
+    ret = spi_bus_initialize(_LCD_HOST, &buscfg, DMA_CHAN);
+    ESP_ERROR_CHECK(ret);
+    //Attach the LCD to the SPI bus
+    ret = spi_bus_add_device(_LCD_HOST, &devcfg, spi);
+    ESP_ERROR_CHECK(ret);
+}
+spi_device_handle_t lcd_init()
+{
+    spi_device_handle_t spi;
+    prepare(&spi);
     int cmd = 0;
     const lcd_init_cmd_t *lcd_init_cmds;
 
@@ -188,9 +269,9 @@ void lcd_init(spi_device_handle_t spi)
     gpio_set_direction(PIN_NUM_BCKL, GPIO_MODE_OUTPUT);
 
     //Reset the display
-    gpio_set_level(PIN_NUM_RST, 0);
+    gpio_set_level(_PIN_NUM_RST, 0);
     vTaskDelay(100 / portTICK_RATE_MS);
-    gpio_set_level(PIN_NUM_RST, 1);
+    gpio_set_level(_PIN_NUM_RST, 1);
     vTaskDelay(100 / portTICK_RATE_MS);
 
     //detect LCD type
@@ -242,14 +323,7 @@ void lcd_init(spi_device_handle_t spi)
     }
     printf("sended all commands.\n");
     ///Enable backlight
-    gpio_set_level(PIN_NUM_BCKL, 1);
+    gpio_set_level(_PIN_NUM_BCKL, 1);
     printf("init ok\n");
-}
-
-//This function is called (in irq context!) just before a transmission starts. It will
-//set the D/C line to the value indicated in the user field.
-void lcd_spi_pre_transfer_callback(spi_transaction_t *t)
-{
-    int dc = (int)t->user;
-    gpio_set_level(PIN_NUM_DC, dc);
+    return spi;
 }

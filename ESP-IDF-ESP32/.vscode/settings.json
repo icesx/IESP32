@@ -44,7 +44,10 @@
     "sdkconfig.h": "c",
     "decode_image.h": "c",
     "spi_disaply.h": "c",
-    "display_common.h": "c"
+    "display_common.h": "c",
+    "spi_master.h": "c",
+    "gpio.h": "c"
   },
-  "idf.flashType": "UART"
+  "idf.flashType": "UART",
+  "C_Cpp.errorSquiggles": "Disabled"
 }
