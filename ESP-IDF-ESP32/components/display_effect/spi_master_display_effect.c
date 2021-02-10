@@ -29,7 +29,6 @@
  before the transaction is sent, the callback will set this line to the correct state.
 */
 
-
 //Place data into DRAM. Constant data gets placed into DROM by default, which is not accessible by DMA.
 
 //Initialize the display
@@ -151,7 +150,7 @@ static void display_pretty_colors(spi_device_handle_t spi)
 
 void app_main_(void)
 {
-    spi_device_handle_t spi=lcd_init();
+    spi_device_handle_t spi = lcd_init();
     //Initialize the effect displayed
     esp_err_t ret = pretty_effect_init();
     ESP_ERROR_CHECK(ret);
