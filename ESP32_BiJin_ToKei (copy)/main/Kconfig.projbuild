@@ -1,0 +1,41 @@
+menu "BiJin ToKei Configuration"
+
+config EXAMPLE_DISPLAY_TYPE
+    int
+    default 0 if EXAMPLE_DISPLAY_TYPE0
+    default 1 if EXAMPLE_DISPLAY_TYPE1
+    default 2 if EXAMPLE_DISPLAY_TYPE2
+    default 3 if EXAMPLE_DISPLAY_TYPE3
+    default 4 if EXAMPLE_DISPLAY_TYPE4
+
+    choice
+        prompt "Select predefined display configuration"
+        default EXAMPLE_DISPLAY_TYPE0
+        help
+            Select predefined display configuration
+    
+        config EXAMPLE_DISPLAY_TYPE0
+            bool "None"
+        config EXAMPLE_DISPLAY_TYPE1
+            bool "ESP-WROVER-KIT Display"
+        config EXAMPLE_DISPLAY_TYPE2
+            bool "Adafruit TFT Feather display"
+        config EXAMPLE_DISPLAY_TYPE3
+            bool "M5Stack TFT display"
+        # config EXAMPLE_DISPLAY_TYPE4
+            # bool "TTGO"
+    endchoice
+
+config WIFI_SSID
+    string "WiFi SSID"
+    default "CMCC-IIICCCXXXX_plus"
+    help
+    	SSID (network name) for the demo to connect to.
+
+config WIFI_PASSWORD
+    string "WiFi Password"
+    default "bgfgqlbf#2@31"
+    help
+	    WiFi password (WPA or WPA2) for the demo to use.
+
+endmenu
