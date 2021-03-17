@@ -128,7 +128,7 @@ static void display_pretty_colors(spi_device_handle_t spi)
     while (1)
     {
         frame++;
-        printf("frame %d\n", frame);
+        // printf("frame %d\n", frame);
         for (int y = 0; y < 240; y += PARALLEL_LINES)
         {
             //Calculate a line.

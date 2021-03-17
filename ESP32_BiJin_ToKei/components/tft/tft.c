@@ -2938,14 +2938,18 @@ void TFT_jpg_image(int x, int y, uint8_t scale, int s, char *fname, uint8_t *buf
 			disp_select();
 			rc = jd_decomp(&jd, tjd_output, scale);
 			disp_deselect();
-
 			if (rc != JDR_OK)
 			{
+				printf("jd_decomp result is error %d \r\n", rc);
 				if (image_debug)
 					printf("jpg decompression error %d\r\n", rc);
+			}else{
+				printf("jd_decomp result is JDI_OK\r\n");
 			}
 			if (image_debug)
 				printf("Jpg size: %dx%d, position; %d,%d, scale: %d, bytes used: %d\r\n", jd.width, jd.height, x, y, scale, jd.sz_pool);
+
+			
 		}
 		else
 		{

@@ -52,7 +52,7 @@
 // set to 0 means not use cache file, direct decode HTTP JPG
 // response on the fly. This can avoid worn out the flash but
 // trade off a little bit display speed
-#define CACHE_COUNT 0
+#define CACHE_COUNT 8
 // ==========================================================
 
 // ==========================================================
@@ -301,6 +301,7 @@ static void http_get_task()
 			do
 			{
 				r = read(s, recv_buf, sizeof(recv_buf));
+				// printf("fwrite file_size=%d\n",file_size);
 				file_size += fwrite(recv_buf, 1, r, f);
 			} while (r > 0);
 			fclose(f);
