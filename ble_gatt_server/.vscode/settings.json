@@ -2,5 +2,6 @@
     "files.associations": {
         "esp_gap_ble_api.h": "c",
         "freertos.h": "c"
-    }
+    },
+    "idf.flashType": "UART"
 }
