@@ -1,0 +1,40 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "includePath": [
+                "${config:idf.espIdfPath}/components/**",
+                "${config:idf.espIdfPathWin}/components/**",
+                "${workspaceFolder}/components",
+                "/TOOLS/SDK/esp32/esp-idf/components/esp32/include/",
+                "/TOOLS/SDK/esp32/esp-idf/components/soc/esp32/include/",
+                "/TOOLS/SDK/esp32/esp-idf/components/log/include/",
+                "/TOOLS/SDK/esp32/esp-idf/components/nvs_flash/include/",
+                "/TOOLS/SDK/esp32/esp-idf/components/bt/include/",
+                "/TOOLS/SDK/esp32/esp-idf/components/bt/host/bluedroid/api/include/api/",
+                "/TOOLS/SDK/esp32/esp-idf/components/freertos/include/",
+                "/TOOLS/SDK/esp32/esp-idf/components/newlib/include",
+                "/TOOLS/SDK/esp32/esp-idf/components/xtensa/include/",
+                "/TOOLS/SDK/esp32/esp-idf/components/xtensa/esp32/include/",
+                "/TOOLS/SDK/esp32/esp-idf/components/heap/include/",
+                "/TOOLS/SDK/esp32/esp-idf/components/spi_flash/include",
+                "/TOOLS/SDK/esp32/esp-idf/components/soc/include/",
+                "/TOOLS/SDK/esp32/esp-idf/components/",
+                "${workspaceFolder}/**"
+            ],
+            "browse": {
+                "path": [
+                    "${config:idf.espIdfPath}/components",
+                    "${config:idf.espIdfPathWin}/components",
+                    "${workspaceFolder}",
+                    "${workspaceFolder}/components"
+                ],
+                "limitSymbolsToIncludedHeaders": false
+            },
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+        }
+    ],
+    "version": 4
+}    
